@@ -12,23 +12,19 @@ export interface customer{
 
 }
 
-export interface  ErorrHandler {
 
-    
-}
 
 function readStream() {
     return new Promise((resolve, reject)=>{
-
+        
         let data =  fs.readFileSync('./database.json',{encoding:'utf-8'}) 
-      
         resolve(data)
     })
 }
 
 
 function writeStream(data:any) {
-    fs.writeFileSync('./database.json', JSON.stringify(data,null,3))
+    fs.writeFileSync('./database.json', JSON.stringify(data, null ,3))
 }
 
 // let rawData=readStream()
