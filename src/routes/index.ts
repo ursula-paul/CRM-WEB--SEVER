@@ -6,7 +6,7 @@ let router = express.Router();
 
 // FOR GET ALL
 /* GET home page. */
-router.get('/', function(req: Request, res: Response, next: NextFunction) {
+router.get('/', function(_req: Request, res: Response, next: NextFunction) {
     let readData:any = help.readStream()
     let parseData=JSON.parse(readData)
     res.status(200).json({data:parseData})
