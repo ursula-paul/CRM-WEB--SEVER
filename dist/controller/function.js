@@ -6,8 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = __importDefault(require("fs"));
 function readStream() {
     return new Promise((resolve, reject) => {
-        let data = fs_1.default.readFileSync('./database.json', { encoding: 'utf-8' });
-        resolve(data);
+        let data = fs_1.default.readFileSync("database.json", { encoding: 'utf-8' });
+        if (data)
+            resolve(data);
+        reject('no file');
     });
 }
 function writeStream(data) {

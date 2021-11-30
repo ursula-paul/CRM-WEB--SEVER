@@ -8,45 +8,46 @@ const express_1 = __importDefault(require("express"));
 let router = express_1.default.Router();
 // FOR GET ALL
 /* GET home page. */
-router.get('/', function (req, res, next) {
-    async function getData() {
+router.get('/', async (_req, res) => {
+    try {
         let readData = await function_1.default.readStream();
-        res.status(200);
-        // res.render('layout', {
-        //   result: readData
-        // })
-        res.send();
+        console.log("Data", readData);
+        // console.log("I'm here");
+        res.status(200).json(JSON.parse(readData));
     }
-    getData();
+    catch (error) {
+        console.log(error);
+    }
 });
 // FOR GET BY ID
-router.get('/:id', function (req, res, next) {
-    async function getById() {
+router.get('/:id', async (req, res) => {
+    try {
         let readData = await function_1.default.readStream();
         let parseData = JSON.parse(readData);
-        const foundCustomer = parseData.find((ele) => `${ele.id}` === req.params.id);
+        const foundCustomer = parseData.find((ele) => `${ele.id}` === req.params?.id);
         if (!foundCustomer) {
             return res.status(404).json({ message: "customer not found " });
         }
         res.status(200).json(foundCustomer);
     }
-    getById();
+    catch (error) {
+        console.log(error);
+    }
 });
-router.post('/', function (req, res, next) {
-    async function postData() {
+router.post('/', async (req, res) => {
+    try {
         let current_data = await function_1.default.readStream();
         let parseData = JSON.parse(current_data);
-        let userid = 0;
-        // if(parseData.length<1) {
-        //   userid=1
-        //   console.log('test1');
-        // }
-        // else {
-        userid = parseData[parseData.length - 1]["id"] + 1;
-        // }
-        console.log('dfdfdfd');
+        let userId;
+        if (parseData.length === 0) {
+            userId = 1;
+        }
+        else {
+            userId = parseData.length + 1;
+        }
+        // console.log('dfdfdfd');
         let details = {
-            "id": userid,
+            "id": userId,
             "fullname": req.body.fullname,
             "email": req.body.email,
             "gender": req.body.gender,
@@ -54,8 +55,6 @@ router.post('/', function (req, res, next) {
             "address": req.body.address,
             "notes": req.body.notes
         };
-        // const {fullname, email, gender, phone, address, notes} = details
-        // if(!fullname || !email || !gender || !phone || address) return res.status(400).json({message:" fullname, email, gender, phone and address are all required"})
         if (!details.fullname)
             return res.status(400).json({ message: "user fullname is required" });
         if (!details.email)
@@ -73,9 +72,11 @@ router.post('/', function (req, res, next) {
             return res.status(400).json({ message: "email already exist try another" });
         parseData.push(details);
         function_1.default.writeStream(parseData);
-        res.status(201).json({ message: `new customer added sucessfully`, id: userid, data: details });
+        res.status(201).json({ message: `new customer added sucessfully`, data: details });
     }
-    postData();
+    catch (error) {
+        console.log(error);
+    }
 });
 router.put('/:id', function (req, res, next) {
     async function putData() {
