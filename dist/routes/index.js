@@ -12,7 +12,10 @@ router.get('/', function (req, res, next) {
     async function getData() {
         let readData = await function_1.default.readStream();
         res.status(200);
-        res.send(readData);
+        // res.render('layout', {
+        //   result: readData
+        // })
+        res.send();
     }
     getData();
 });
@@ -33,8 +36,17 @@ router.post('/', function (req, res, next) {
     async function postData() {
         let current_data = await function_1.default.readStream();
         let parseData = JSON.parse(current_data);
+        let userid = 0;
+        // if(parseData.length<1) {
+        //   userid=1
+        //   console.log('test1');
+        // }
+        // else {
+        userid = parseData[parseData.length - 1]["id"] + 1;
+        // }
+        console.log('dfdfdfd');
         let details = {
-            "id": parseData.length + 1,
+            "id": userid,
             "fullname": req.body.fullname,
             "email": req.body.email,
             "gender": req.body.gender,
@@ -42,6 +54,8 @@ router.post('/', function (req, res, next) {
             "address": req.body.address,
             "notes": req.body.notes
         };
+        // const {fullname, email, gender, phone, address, notes} = details
+        // if(!fullname || !email || !gender || !phone || address) return res.status(400).json({message:" fullname, email, gender, phone and address are all required"})
         if (!details.fullname)
             return res.status(400).json({ message: "user fullname is required" });
         if (!details.email)
@@ -59,7 +73,7 @@ router.post('/', function (req, res, next) {
             return res.status(400).json({ message: "email already exist try another" });
         parseData.push(details);
         function_1.default.writeStream(parseData);
-        res.status(201).json({ message: `new customer added sucessfully`, data: details });
+        res.status(201).json({ message: `new customer added sucessfully`, id: userid, data: details });
     }
     postData();
 });
@@ -67,8 +81,6 @@ router.put('/:id', function (req, res, next) {
     async function putData() {
         let details = await function_1.default.readStream();
         let parsedDetails = JSON.parse(details);
-        req.body.id;
-        // res.send(parsedDetails)
         const foundDetails = parsedDetails.find((ele) => `${ele.id}` === req.params.id);
         if (!foundDetails) {
             return res.status(404).json({ message: "customer not found"
@@ -79,7 +91,6 @@ router.put('/:id', function (req, res, next) {
         parsedDetails.splice(dataIndex, 1, newData);
         function_1.default.writeStream(parsedDetails);
         res.status(200).json({ message: 'updated the customer', data: parsedDetails });
-        //res.send(details)
     }
     putData();
 });

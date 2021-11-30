@@ -10,7 +10,10 @@ router.get('/', function(req: Request, res: Response, next: NextFunction) {
   async function getData() {
     let readData = await help.readStream()
     res.status(200)
-    res.send(readData)
+    // res.render('layout', {
+    //   result: readData
+    // })
+    res.send();
   }
   getData()
 
