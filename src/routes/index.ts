@@ -9,10 +9,8 @@ let router = express.Router();
 router.get('/', function(req: Request, res: Response, next: NextFunction) {
   async function getData() {
     let readData = await help.readStream()
-    res.status(200).json(readData)
-    // res.render('layout', {
-    //   result: readData
-    // })
+    res.status(200).json({data:readData})
+
   
   }
   getData()
