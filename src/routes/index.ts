@@ -13,7 +13,7 @@ router.get('/', function(req: Request, res: Response, next: NextFunction) {
     // res.render('layout', {
     //   result: readData
     // })
-    res.send();
+  
   }
   getData()
 
