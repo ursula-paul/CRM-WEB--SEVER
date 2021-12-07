@@ -1,11 +1,9 @@
-[
-   {
-      "id": 2,
-      "fullname": "ursula olive ",
-      "email": "ursula@gmail.com",
-      "gender": "f",
-      "phone": "+2347085647535",
-      "address": "1, ranteoiihuuttut",
-      "notes": "This Customer is owing 10k"
-   }
-]
+[{
+   "id": 1,
+   "fullname": "pe",
+   "email": "ursula@gmail.com",
+   "gender": "f",
+   "phone": "+2347085647535",
+   "address": "1, ranteoiihuuttut",
+   "notes": "This Customer is owing 10k"
+}]
